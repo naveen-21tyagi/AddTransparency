@@ -5,6 +5,8 @@ namespace AddTransparency{
     class App : Form{
         Label header;
         Label footer;
+        Label alpha;
+        TextBox value;
         Button makeIt;
         ComboBox programs;
         static Dictionary<string,int>? list;
@@ -61,9 +63,22 @@ namespace AddTransparency{
             programs.DropDownHeight = programs.ItemHeight * 4;
             
 
+            alpha =new Label();
+            alpha.Location=new Point(150,190);
+            alpha.Size = new Size(50,30);
+            alpha.Text = "Alpha ";
+            alpha.TextAlign = ContentAlignment.MiddleRight;
+
+
+            value = new TextBox();
+            value.Location=new Point(200,190);
+            value.Size = new Size(50,30);
+            value.Text = "0-255";
+            value.MaxLength=3;
+
             makeIt = new Button();
-            makeIt.Location=new Point(200,190);
-            makeIt.Size = new Size(100,30);
+            makeIt.Location=new Point(275,190);
+            makeIt.Size = new Size(75,30);
             makeIt.Text = "Make It..";
             makeIt.Click += new EventHandler(DoIt);
 
@@ -75,6 +90,8 @@ namespace AddTransparency{
             
             this.Controls.Add(header);
             this.Controls.Add(programs);
+            this.Controls.Add(alpha);
+            this.Controls.Add(value);
             this.Controls.Add(makeIt);
             this.Controls.Add(footer);
             this.Text = "AddTransparency";
@@ -84,8 +101,8 @@ namespace AddTransparency{
         void DoIt(Object? sender, EventArgs e){
             string program = (string)programs.SelectedItem;
             int pid=list[program];
-            SetTransParency.SetTransparency(pid,221);
-            makeIt.Text="Done";
+            SetTransParency.SetTransparency(pid, byte.Parse(value.Text));
+            // makeIt.Text="Done";
         }
     }
 }
